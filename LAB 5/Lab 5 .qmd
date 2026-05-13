@@ -1,0 +1,129 @@
+---
+title: "Karla D - Class 05: Data Visualization with GGPLOT"
+format: pdf
+editor: visual
+---
+
+Q1 - For which phases is data visualization important in our scientific workflows? Answer- All of the above
+
+Q2- True or False? The ggplot2 package comes already installed with R? Answer- FALSE
+
+Q3- Which plot types are typically NOT used to compare distributions of numeric variables? Answer - Network graphs
+
+Q4- Which statement about data visualization with ggplot2 is incorrect? Answer- ggplot2 is the only way to create plots in R
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+library(ggplot2)
+ggplot(cars)
+```
+
+```{r}
+ggplot(cars) +
+  aes(x=speed, y=dist)
+```
+
+```{r}
+ggplot(cars) +
+  aes(x=speed, y=dist) +
+  geom_point()
+```
+
+Q5 - Which geometric layer should be used to create scatter plots in ggplot2? Answer - geom_point()
+
+Q6 - In your own RStudio can you add a trend line layer to help show the relationship between the plot variables with the geom_smooth() function?
+
+Asnwer-
+
+```{r}
+ggplot(cars) +
+  aes(x=speed, y=dist) +
+  geom_point() +
+  geom_smooth()
+```
+
+Q7- Argue with geom_smooth() to add a straight line from a linear model without the shaded standard error region? Answer-
+
+```{r}
+ggplot(cars) +
+  aes(x=speed, y=dist) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE)
+```
+
+Q8- Can you finish this plot by adding various label annotations with the labs() function and changing the plot look to a more conservative “black & white” theme by adding the theme_bw() function: Answer-
+
+```{r}
+ggplot(cars) + 
+  aes(x=speed, y=dist) +
+  geom_point() +
+  labs(title="Speed and Stopping Distances of Cars",
+       x="Speed (MPH)", 
+       y="Stopping Distance (ft)",
+       subtitle = "Your informative subtitle text here",
+       caption="Dataset: 'cars'") +
+  geom_smooth(method="lm", se=FALSE) +
+  theme_bw()
+```
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+```
+
+```{r}
+nrow(genes)
+```
+
+```{r}
+colnames(genes)
+ncol(genes)
+```
+
+```{r}
+table(genes$State)
+```
+
+```{r}
+round( table(genes$State)/nrow(genes) * 100, 2 )
+```
+
+Q10- Use the nrow() function to find out how many genes are in this dataset. What is your answer? Answer- 5196
+
+Q11- Use the colnames() function and the ncol() function on the genes data frame to find out what the column names are (we will need these later) and how many columns there are. How many columns did you find? Answer- 4
+
+Q12- Use the table() function on the State column of this data.frame to find out how many ‘up’ regulated genes there are. What is your answer- 127
+
+Q13- Using your values above and 2 significant figures. What fraction of total genes is up-regulated in this dataset? Answer- 2.44
+
+Q13- Complete the code below to produce the following plot Answer-
+
+```{r}
+ggplot(genes) + 
+    aes(x=Condition1, y=Condition2) +
+    geom_point()
+```
+
+```{r}
+p <- ggplot(genes) + 
+    aes(x=Condition1, y=Condition2, col=State) +
+    geom_point()
+p
+```
+
+```{r}
+p + scale_colour_manual( values=c("blue","gray","red") )
+```
+
+Q13- Nice, now add some plot annotations to the p object with the labs() function so your plot looks like the following:
+
+```{r}
+p + scale_colour_manual(values=c("blue","gray","red")) +
+    labs(title="Gene Expresion Changes Upon Drug Treatment",
+         x="Control (no drug) ",
+         y="Drug Treatment")
+```
